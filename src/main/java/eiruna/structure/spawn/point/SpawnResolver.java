@@ -184,6 +184,7 @@ public class SpawnResolver {
             return;
         }
 
+        var startCalculations = System.currentTimeMillis();
         var candidateTopPos = getSurfacePos(world, candidate);
 
         StructureSpawnPoint.LOGGER.info(
@@ -191,10 +192,7 @@ public class SpawnResolver {
                 searchAttempt, candidateTopPos.getX(), candidateTopPos.getY(), candidateTopPos.getZ()
         );
 
-        var startCalculations = System.currentTimeMillis();
         var viabilityPercentage = getViabilityPercentage(world, candidate);
-        var endCalculations = System.currentTimeMillis();
-        timeSpentCalculatingStructureViability += endCalculations - startCalculations;
         var preferredBiome = isPreferredBiome(world, candidateTopPos);
         var avoidedBiome = isAvoidedBiome(world, candidateTopPos);
         var flatTerrain = isTerrainFlat(world, candidate);
@@ -203,6 +201,8 @@ public class SpawnResolver {
         if (avoidedBiome) failedAvoidedBiome++;
         if (!flatTerrain) failedFlatTerrain++;
 
+        var endCalculations = System.currentTimeMillis();
+        timeSpentCalculatingStructureViability += endCalculations - startCalculations;
 
         processCandidate(world, candidateTopPos, viabilityPercentage, preferredBiome, avoidedBiome, flatTerrain);
     }
