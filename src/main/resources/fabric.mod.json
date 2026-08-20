@@ -1,0 +1,30 @@
+{
+	"schemaVersion": 1,
+	"id": "structure-spawn-point",
+	"version": "${version}",
+	"name": "Structure Spawn Point",
+	"description": "Set world spawn to a structure of your choice",
+	"authors": [
+		"Eiruna"
+	],
+	"contact": {
+		"homepage": "https://fabricmc.net/",
+		"sources": "https://github.com/FabricMC/fabric-example-mod"
+	},
+	"license": "MIT",
+	"icon": "assets/structure-spawn-point/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"eiruna.structure.spawn.point.StructureSpawnPoint"
+		],
+		"client": []
+	},
+	"mixins": [],
+	"depends": {
+		"fabricloader": ">=0.18.0",
+		"minecraft": "~1.21.1",
+		"java": ">=21",
+		"fabric-api": "*"
+	}
+}
