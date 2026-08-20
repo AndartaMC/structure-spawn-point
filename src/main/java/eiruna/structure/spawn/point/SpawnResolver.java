@@ -145,12 +145,20 @@ public class SpawnResolver {
             return;
         }
 
-        if (tickDuration > 200) {
+        if (tickDuration > 80) {
             StructureSpawnPoint.LOGGER.info(
                     "Server tick took {}ms, giving it some time to catch up.", tickDuration);
             cooldown = 5;
             return;
         }
+
+        if (tickDuration < 10) {
+            StructureSpawnPoint.LOGGER.info(
+                    "Server tick took {}ms, suggesting it is doing rapid-fire ticks to try and catch up, giving it some time.", tickDuration);
+            cooldown = 10;
+            return;
+        }
+
 
         searchAttempt++;
 
@@ -169,7 +177,6 @@ public class SpawnResolver {
             return;
         }
 
-        var startCalculations = System.currentTimeMillis();
         var candidateTopPos = getSurfacePos(world, candidate);
 
         StructureSpawnPoint.LOGGER.info(
@@ -177,7 +184,10 @@ public class SpawnResolver {
                 searchAttempt, candidateTopPos.getX(), candidateTopPos.getY(), candidateTopPos.getZ()
         );
 
+        var startCalculations = System.currentTimeMillis();
         var viabilityPercentage = getViabilityPercentage(world, candidate);
+        var endCalculations = System.currentTimeMillis();
+        timeSpentCalculatingStructureViability += endCalculations - startCalculations;
         var preferredBiome = isPreferredBiome(world, candidateTopPos);
         var avoidedBiome = isAvoidedBiome(world, candidateTopPos);
         var flatTerrain = isTerrainFlat(world, candidate);
@@ -186,8 +196,6 @@ public class SpawnResolver {
         if (avoidedBiome) failedAvoidedBiome++;
         if (!flatTerrain) failedFlatTerrain++;
 
-        var endCalculations = System.currentTimeMillis();
-        timeSpentCalculatingStructureViability += endCalculations - startCalculations;
 
         processCandidate(world, candidateTopPos, viabilityPercentage, preferredBiome, avoidedBiome, flatTerrain);
     }

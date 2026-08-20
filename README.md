@@ -87,22 +87,22 @@ Enables or disables all popup messages (title screen). Individual messages can a
 Enables or disables all chat messages. Individual messages can also be disabled by leaving them empty.
 
 **`structure_found_message`** *(default: "Structure found")*
-Popup title shown when a player is about to be teleported.
+Message shown when a player is about to be teleported.
 
 **`welcome_message`** *(default: "Welcome home.")*
-Chat message shown after a successful teleport.
+Message shown after a successful teleport.
 
 **`search_in_progress_title`** *(default: "Searching...")*
-Popup title shown periodically to players who join while the search is still running.
+Message shown periodically to players who join while the search is still running.
 
 **`search_in_progress_subtitle`** *(default: "The server may be slow. Please wait.")*
-Popup subtitle shown alongside `search_in_progress_title`.
+Message shown alongside `search_in_progress_title`.
 
 **`failure_message`** *(default: "No structure found.")*
-Chat message shown to players if the search completes without finding any candidate.
+Message shown to players if the search completes without finding any candidate.
 
 **`teleport_warning_message_override`** *(default: "")*
-Overrides the automatic "Teleporting in X seconds..." countdown subtitle. Useful for translating the message or changing its wording. Leave empty to use the default countdown.
+Overrides the automatic "Teleporting in X seconds..." countdown message. Useful for translating the message or changing its wording. Leave empty to use the default countdown.
 
 Leaving any message field empty disables that specific message entirely.
 
