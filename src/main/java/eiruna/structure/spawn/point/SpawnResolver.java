@@ -39,6 +39,7 @@ public class SpawnResolver {
     private int cooldown = 0;
     private long timeSpentSearching;
     private long timeSpentCalculatingStructureViability;
+    private boolean catchingUp = false;
 
     public SpawnResolver(String structureId) {
         searchAttempt = 0;
@@ -118,7 +119,8 @@ public class SpawnResolver {
         if (flatTerrainFailRate > 0.3) {
             logs.add(String.format("%d%% of candidates failed the flat terrain check. " +
                             "Consider decreasing the 'terrain_flatness_check_radius'." +
-                            "and/or increasing the 'max_terrain_height_difference'.",
+                            "and/or increasing the 'max_terrain_height_difference'." +
+                            "Set 'terrain_flatness_check_radius' to 0 to disable this check for structures that naturally generate in varied terrain",
                     Math.round(flatTerrainFailRate * 100)));
         }
 
@@ -153,12 +155,17 @@ public class SpawnResolver {
         }
 
         if (tickDuration < 10) {
-            StructureSpawnPoint.LOGGER.info(
-                    "Server tick took {}ms, suggesting it is doing rapid-fire ticks to try and catch up, giving it some time.", tickDuration);
-            cooldown = 10;
+            if (!catchingUp) {
+                catchingUp = true;
+                StructureSpawnPoint.LOGGER.info("Server is catching up, pausing search.");
+            }
+            cooldown = 5;
             return;
         }
-
+        if (catchingUp) {
+            catchingUp = false;
+            StructureSpawnPoint.LOGGER.info("Server caught up, resuming search.");
+        }
 
         searchAttempt++;
 
@@ -239,7 +246,7 @@ public class SpawnResolver {
         if (nearest == null) {
             var entry = structureRegistry.getEntry(Identifier.of(structureId));
             if (entry.isPresent()) {
-                StructureSpawnPoint.LOGGER.info("No tag found for '{}', trying as direct structure ID.", structureId);
+                StructureSpawnPoint.LOGGER.debug("No tag found for '{}', trying as direct structure ID.", structureId);
                 RegistryEntryList<Structure> structureList = RegistryEntryList.of(entry.get());
                 nearest = chunkGenerator.locateStructure(
                         world,

@@ -23,4 +23,8 @@ public class PrefixLogger
     public void warn(String message, Object... arguments){
         logger.warn(prefix + message, arguments);
     }
+
+    public void debug(String message, Object... arguments){
+        logger.debug(prefix + message, arguments);
+    }
 }
