@@ -27,10 +27,10 @@ For world-specific configuration, create a file at `config/structure-spawn-point
 
 ## Finding your structure ID
 
-Use the `/locate structure` command in game to find structures near you. The ID shown (e.g. `nova_structures:stray_fort`) is what you put in `target_structure`. The mod supports both specific structure IDs and structure tags — just enter either format and the mod tries both automatically. The `#` prefix used in commands is optional and stripped automatically.
+Use the `/locate structure` command in game to find structures near you. The ID shown (e.g. `minecraft:village`) is what you put in `target_structure`. The mod supports both specific structure IDs and structure tags — just enter either format and the mod tries both automatically. The `#` prefix used in commands is optional and stripped automatically.
 
 ```json
-"target_structure": "nova_structures:stray_fort"
+"target_structure": "minecraft:village"
 ```
 
 Examples of valid values:
@@ -131,12 +131,7 @@ Clears the saved spawn point and triggers a new search. All online players are n
 
 ## Diagnostics
 
-When a search completes, a diagnostic report is logged to the console and saved. It is accessible at any time via `/structurespawnpoint status`. The report shows how many candidates failed each check and includes specific suggestions when a pattern is detected:
-
-- **High surrounding area failure rate** → reduce `min_preferred_area_percentage`
-- **High preferred biome failure rate** → your preferred biomes may be too restrictive for this structure type, or the structure rarely generates in those biomes
-- **High avoided biome failure rate** → too many biomes are being avoided; consider removing some entries
-- **Structure not found at all** → verify the structure ID is correct; increase `max_search_attempts` to cover a larger area
+When a search completes, a diagnostic report is logged to the console and saved. It is accessible at any time via `/structurespawnpoint status`. The report shows how many candidates failed each check and includes specific suggestions when a pattern is detected.
 
 ---
 
